@@ -31,7 +31,6 @@ cd NaverBlog
 
 2. Install dependencies:
 ```bash
-go mod init NaverBlog
 go get github.com/chromedp/chromedp
 
 ```
