@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"koreanquizbot/scraper"
+	"NaverBlog/scraper"
 )
 
 func main() {
