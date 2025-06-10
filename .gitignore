@@ -1,0 +1,39 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Build output
+/build/
+bin/
+dist/
+
+# Dependency directories (vendor if you're vendoring)
+vendor/
+
+# Go module files that can be re-downloaded
+go.sum
+
+# IDE/editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.DS_Store
+
+# Environment files
+.env
+.env.*
+
+# Logs
+*.log
+
+# Coverage files
+coverage.out
+
+# OS-specific files
+Thumbs.db

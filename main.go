@@ -1,16 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"log"
-
+	generator "NaverBlog/openai"
 	"NaverBlog/scraper"
+	"fmt"
 )
 
 func main() {
-	url, err := scraper.ScrapeFirstFoodArticleURL()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("First food article URL:", url)
+	article := scraper.ScrapeArticle()
+	cleanedArticle, quiz := generator.CreateQuiz(article)
+	fmt.Print(cleanedArticle, quiz)
 }
