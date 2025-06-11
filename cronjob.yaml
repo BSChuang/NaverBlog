@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: quiz-bot
+spec:
+  schedule: "0 13 * * *"  # ⏰ Run daily at 9AM ET (13:00 UTC)
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: quiz-bot
+            image: <your-ecr-url>/naver-blog:latest
+            env:
+              - name: OPENAI_API_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: quiz-secrets
+                    key: OPENAI_API_KEY
+              - name: DISCORD_BOT_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: quiz-secrets
+                    key: DISCORD_BOT_TOKEN
+              - name: DISCORD_CHANNEL_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: quiz-secrets
+                    key: DISCORD_CHANNEL_ID
+          restartPolicy: OnFailure
