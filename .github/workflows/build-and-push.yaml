@@ -40,4 +40,13 @@ jobs:
 
       - name: Login to Amazon ECR
         run: |
-          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 453004141968.dkr.ecr.us-east-1.amazonaws.com
+
+      - name: Build Docker image
+        run: |
+          docker build -t naver-blog .
+          docker tag naver-blog:latest 453004141968.dkr.ecr.us-east-1.amazonaws.com/naver-blog:latest
+
+      - name: Push image to ECR
+        run: |
+          docker push 453004141968.dkr.ecr.us-east-1.amazonaws.com/naver-blog:latest

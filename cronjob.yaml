@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
           - name: quiz-bot
-            image: <your-ecr-url>/naver-blog:latest
+            image: 453004141968.dkr.ecr.us-east-1.amazonaws.com/naver-blog:latest
             env:
               - name: OPENAI_API_KEY
                 valueFrom:
