@@ -28,4 +28,4 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            kubectl apply -f ~/cronjob.yaml
+            sudo kubectl --kubeconfig=/etc/rancher/k3s/k3s.yaml apply -f ~/cronjob.yaml

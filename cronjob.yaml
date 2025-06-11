@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: quiz-bot
+  name: naver-blog
 spec:
   schedule: "0 13 * * *"  # ⏰ Run daily at 9AM ET (13:00 UTC)
   jobTemplate:
@@ -9,7 +9,7 @@ spec:
       template:
         spec:
           containers:
-          - name: quiz-bot
+          - name: naver-blog
             image: 453004141968.dkr.ecr.us-east-1.amazonaws.com/naver-blog:latest
             env:
               - name: OPENAI_API_KEY
