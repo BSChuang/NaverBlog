@@ -27,4 +27,6 @@ spec:
                   secretKeyRef:
                     name: quiz-secrets
                     key: DISCORD_CHANNEL_ID
+          imagePullSecrets:
+            - name: regcred
           restartPolicy: OnFailure
