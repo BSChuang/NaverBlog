@@ -1,29 +1,13 @@
-name: Build and Push to ECR
+name: Push to ECR
 
 on:
-  push:
-    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
-  build-test:
-    name: Build Go App
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.24.3'
-
-      - name: Build app
-        run: go build -v ./...
-
-  build-and-push:
+  push-to-ecr:
     name: Build and Push Docker Image to ECR
     runs-on: ubuntu-latest
-    needs: build-test
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
