@@ -21,11 +21,21 @@ jobs:
           source: "./cronjob.yaml"
           target: "~/cronjob.yaml"
 
-      - name: Apply CronJob on EC2
+      - name: Delete old CronJobs and apply new one
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            # Delete all CronJobs in the default namespace
+            echo "Deleting existing CronJobs..."
+            sudo kubectl --kubeconfig=/etc/rancher/k3s/k3s.yaml delete cronjob --all
+
+            # Apply the new CronJob
+            echo "Applying new CronJob..."
             sudo kubectl --kubeconfig=/etc/rancher/k3s/k3s.yaml apply -f ~/cronjob.yaml
+
+            # Verify
+            echo "Current CronJobs:"
+            sudo kubectl --kubeconfig=/etc/rancher/k3s/k3s.yaml get cronjobs

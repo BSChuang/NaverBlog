@@ -17,9 +17,7 @@ type Quiz struct {
 }
 
 func initEnv() string {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	_ = godotenv.Load()
 
 	apiKey := os.Getenv("OPENAI_API_KEY")
 	if apiKey == "" {
