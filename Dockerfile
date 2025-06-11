@@ -7,14 +7,14 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o quiz-bot .
+RUN CGO_ENABLED=0 GOOS=linux go build -o naver-blog .
 
 FROM gcr.io/distroless/static:nonroot
 
 WORKDIR /
 
-COPY --from=builder /app/quiz-bot .
+COPY --from=builder /app/naver-blog .
 
 USER nonroot:nonroot
 
-ENTRYPOINT ["/quiz-bot"]
+ENTRYPOINT ["/naver-blog"]
