@@ -1,4 +1,4 @@
-module naver-blog
+module github.com/BSChuang/NaverBlog
 
 go 1.24.3
 

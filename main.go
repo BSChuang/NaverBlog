@@ -1,9 +1,9 @@
 package main
 
 import (
-	sender "NaverBlog/discord"
-	generator "NaverBlog/openai"
-	"NaverBlog/scraper"
+	sender "github.com/BSChuang/NaverBlog/discord"
+	generator "github.com/BSChuang/NaverBlog/openai"
+	"github.com/BSChuang/NaverBlog/scraper"
 )
 
 func main() {
