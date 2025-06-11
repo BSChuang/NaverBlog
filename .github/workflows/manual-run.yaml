@@ -18,7 +18,7 @@ jobs:
           script: |
             echo "Triggering one-off Job from CronJob..."
             sudo kubectl --kubeconfig=/etc/rancher/k3s/k3s.yaml create job \
-              --from=cronjob=naver-blog manual-run-$(date +%s)
+              --from=cronjob/naver-blog manual-run-$(date +%s)
 
             echo "Current Jobs:"
             sudo kubectl --kubeconfig=/etc/rancher/k3s/k3s.yaml get jobs
