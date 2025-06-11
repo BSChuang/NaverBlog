@@ -18,7 +18,7 @@ jobs:
           host: ${{ secrets.AWS_ACCESS_KEY_ID }}
           username: ubuntu
           key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          source: "k8s/cronjob.yaml"
+          source: "./cronjob.yaml"
           target: "~/cronjob.yaml"
 
       - name: Apply CronJob on EC2
