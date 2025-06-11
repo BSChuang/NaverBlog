@@ -2,6 +2,7 @@ package scraper
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"regexp"
 	"strings"
@@ -108,16 +109,18 @@ func scrapeArticleContent(articleURL string) (string, error) {
 	return cleaned, nil
 }
 
-func ScrapeArticle() string {
+func ScrapeArticle() (string, string) {
 	url, err := scrapeFirstFoodArticleURL()
 	if err != nil {
 		log.Fatal("Failed to get article URL:", err)
 	}
+	fmt.Println("Found article URL")
 
-	body, err := scrapeArticleContent(url)
+	article, err := scrapeArticleContent(url)
 	if err != nil {
 		log.Fatal("Failed to get article content:", err)
 	}
+	fmt.Println("Scraped article content")
 
-	return body
+	return url, article
 }

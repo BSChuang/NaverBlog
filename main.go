@@ -1,13 +1,13 @@
 package main
 
 import (
+	sender "NaverBlog/discord"
 	generator "NaverBlog/openai"
 	"NaverBlog/scraper"
-	"fmt"
 )
 
 func main() {
-	article := scraper.ScrapeArticle()
+	url, article := scraper.ScrapeArticle()
 	cleanedArticle, quiz := generator.CreateQuiz(article)
-	fmt.Print(cleanedArticle, quiz)
+	sender.SendArticleAndQuiz(url, cleanedArticle, quiz)
 }
