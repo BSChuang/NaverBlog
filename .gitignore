@@ -37,3 +37,5 @@ coverage.out
 
 # OS-specific files
 Thumbs.db
+
+k3s.yaml
