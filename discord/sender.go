@@ -15,12 +15,12 @@ func initEnv() (string, string) {
 
 	discordToken := os.Getenv("DISCORD_BOT_TOKEN")
 	if discordToken == "" {
-		log.Fatal("DISCORD_WEBHOOK_URL is not set")
+		log.Fatal("DISCORD_BOT_TOKEN is not set")
 	}
 
-	channelID := os.Getenv("CHANNEL_ID")
+	channelID := os.Getenv("DISCORD_CHANNEL_ID")
 	if channelID == "" {
-		log.Fatal("DISCORD_WEBHOOK_URL is not set")
+		log.Fatal("DISCORD_CHANNEL_ID is not set")
 	}
 
 	return discordToken, channelID
