@@ -19,20 +19,34 @@ func cleanText(input string) string {
 	return input
 }
 
-func scrapeFirstFoodArticleURL() (string, error) {
+func chromeContext(timeout time.Duration) (context.Context, context.CancelFunc) {
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
-		chromedp.Flag("headless", false),
+		chromedp.Flag("headless", true),
+		chromedp.Flag("no-sandbox", true),
+		chromedp.Flag("disable-gpu", true),
+		chromedp.Flag("disable-software-rasterizer", true),
+		chromedp.Flag("disable-dev-shm-usage", true),
+		chromedp.Flag("disable-extensions", true),
+		chromedp.Flag("single-process", true),
+		chromedp.Flag("no-zygote", true),
 		chromedp.WindowSize(1200, 900),
 	)
 
-	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
-	defer cancel()
-
+	allocCtx, cancelAlloc := chromedp.NewExecAllocator(context.Background(), opts...)
 	ctx, cancelCtx := chromedp.NewContext(allocCtx)
-	defer cancelCtx()
 
-	ctx, timeoutCancel := context.WithTimeout(ctx, 15*time.Second)
-	defer timeoutCancel()
+	timeoutCtx, timeoutCancel := context.WithTimeout(ctx, timeout)
+	cancel := func() {
+		timeoutCancel()
+		cancelCtx()
+		cancelAlloc()
+	}
+	return timeoutCtx, cancel
+}
+
+func scrapeFirstFoodArticleURL() (string, error) {
+	ctx, cancel := chromeContext(15 * time.Second)
+	defer cancel()
 
 	var articleURL string
 
@@ -57,29 +71,15 @@ func scrapeFirstFoodArticleURL() (string, error) {
 }
 
 func scrapeArticleContent(articleURL string) (string, error) {
-	opts := append(chromedp.DefaultExecAllocatorOptions[:],
-		chromedp.Flag("headless", false),
-		chromedp.WindowSize(1200, 900),
-	)
-
-	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
+	ctx, cancel := chromeContext(30 * time.Second)
 	defer cancel()
-
-	ctx, cancelCtx := chromedp.NewContext(allocCtx)
-	defer cancelCtx()
-
-	ctx, timeoutCancel := context.WithTimeout(ctx, 30*time.Second)
-	defer timeoutCancel()
 
 	var iframeSrc string
 	var articleBody string
 
 	err := chromedp.Run(ctx,
-		// Navigate to main article page
 		chromedp.Navigate(articleURL),
 		chromedp.Sleep(1*time.Second),
-
-		// Extract iframe's src attribute
 		chromedp.AttributeValue(`iframe#mainFrame`, "src", &iframeSrc, nil),
 	)
 	if err != nil {
@@ -87,17 +87,14 @@ func scrapeArticleContent(articleURL string) (string, error) {
 		return "", err
 	}
 
-	fullIframeURL := articleURL // default
+	fullIframeURL := articleURL
 	if iframeSrc != "" {
 		fullIframeURL = "https://blog.naver.com" + iframeSrc
 	}
 
 	err = chromedp.Run(ctx,
-		// Navigate to iframe source directly
 		chromedp.Navigate(fullIframeURL),
 		chromedp.Sleep(1*time.Second),
-
-		// Get visible text inside the se-viewer content div
 		chromedp.Text(`div.se-viewer`, &articleBody, chromedp.NodeVisible),
 	)
 	if err != nil {
