@@ -21,13 +21,13 @@ func cleanText(input string) string {
 
 func chromeContext(timeout time.Duration) (context.Context, context.CancelFunc) {
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
+		chromedp.ExecPath("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"),
 		chromedp.Flag("headless", true),
 		chromedp.Flag("no-sandbox", true),
 		chromedp.Flag("disable-gpu", true),
 		chromedp.Flag("disable-software-rasterizer", true),
 		chromedp.Flag("disable-dev-shm-usage", true),
 		chromedp.Flag("disable-extensions", true),
-		chromedp.Flag("single-process", true),
 		chromedp.Flag("no-zygote", true),
 		chromedp.WindowSize(1200, 900),
 	)
@@ -53,6 +53,7 @@ func scrapeFirstFoodArticleURL() (string, error) {
 	err := chromedp.Run(ctx,
 		chromedp.Navigate("https://www.naver.com"),
 		chromedp.Sleep(1*time.Second),
+		chromedp.WaitReady("body", chromedp.ByQuery),
 		chromedp.Click(`//a[text()="푸드"]`, chromedp.BySearch),
 		chromedp.Sleep(1*time.Second),
 		chromedp.AttributeValue(
