@@ -21,7 +21,6 @@ func cleanText(input string) string {
 
 func chromeContext(timeout time.Duration) (context.Context, context.CancelFunc) {
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
-		chromedp.ExecPath("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"),
 		chromedp.Flag("headless", true),
 		chromedp.Flag("no-sandbox", true),
 		chromedp.Flag("disable-gpu", true),
